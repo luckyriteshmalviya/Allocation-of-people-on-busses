@@ -2,24 +2,19 @@
 
 function do_allocation(people, busses) {
   let numberOfBusses = busses;
-  let arr = [1]; // for first Buss (by Default)
 
-  // When no people or no busses is available
-  if (people === 0 || busses === 0) {
-    let arr1 = [0];
-    return arr1;
-  }
-
-  if (people === 1) {
-    // for only single person
+  if (busses == 1) {
+    let arr = [people];
     return arr;
   }
+
+  let arr = [1]; // for first Buss (by Default)
 
   people = people - 1; // Remaining people
   busses = busses - 1; // Remaining Busses
 
-  let secondBuss = parseInt(people / busses);
-  if (secondBuss > 1) {
+  let secondBuss = Math.round(people / busses);
+  if (secondBuss > 1 && busses > 1) {
     secondBuss = secondBuss - 1;
   }
 
@@ -49,6 +44,14 @@ function do_allocation(people, busses) {
       arr.push(0);
     }
   }
+
+  //Condition for extra people
+  if (arr.length > numberOfBusses) {
+    let extra = arr.length - numberOfBusses;
+    for (let i = 0; i < extra; i++) {
+      arr.pop();
+    }
+  }
   return arr;
 }
 
@@ -56,6 +59,10 @@ document.getElementById("button").addEventListener("click", () => {
   // Value from the inputs
   const people = document.getElementById("people").value;
   const busses = document.getElementById("busses").value;
+
+  if (people == 0 || busses == 0) {
+    return alert("Please insert valid input");
+  }
 
   if (people && busses) {
     let bussesNumber = 1;
